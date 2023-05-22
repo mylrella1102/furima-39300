@@ -59,6 +59,30 @@ RSpec.describe User, type: :model do
         expect(@user.errors.full_messages).to include("Password is invalid")
       end
 
+      it 'passwordは英字のみでは登録できない' do
+        @user.password = "abcdef"
+        @user.password_confirmation = "abcdef"
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Password is invalid")
+      end
+
+
+      it 'passwordは数字のみでは登録できない' do
+        @user.password = "111111"
+        @user.password_confirmation = "111111"
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Password is invalid")
+      end
+
+
+      it 'passwordは全角文字を含むと登録できない' do
+        @user.password = "１１１１１１"
+        @user.password_confirmation = "１１１１１１"
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Password is invalid")
+      end
+
+
       it '重複したemailが存在する場合は登録できない' do
         @user.save
         another_user = FactoryBot.build(:user, email: @user.email)
