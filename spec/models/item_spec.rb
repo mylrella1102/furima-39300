@@ -54,6 +54,18 @@ RSpec.describe Item, type: :model do
         expect(@item.errors.full_messages).to include("Prefecture can't be blank")
       end
 
+      it 'scheduled_delivery_idが1では保存できない' do
+        @item.scheduled_delivery_id = '1'
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Scheduled delivery can't be blank")
+      end
+
+      it 'priceが空では保存できない' do
+        @item.price = ''
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Price can't be blank")
+      end
+
       it 'priceが300以下では保存できない' do
         @item.price = '299'
         @item.valid?
@@ -64,6 +76,12 @@ RSpec.describe Item, type: :model do
         @item.price = '10000000'
         @item.valid?
         expect(@item.errors.full_messages).to include("Price must be less than or equal to 9999999")
+      end
+
+      it 'priceが半角数字以外の値が含まれていると保存できない' do
+        @item.price = 'aaaaa'
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Price is not a number")
       end
 
       it 'userが紐付いていないと保存できない' do
