@@ -1,9 +1,18 @@
 class Item < ApplicationRecord
+  class Article < ApplicationRecord
+    extend ActiveHash::Associations::ActiveRecordExtensions
+    belongs_to :category
+    belongs_to :sales_status
+    belongs_to :fee_status
+    belongs_to :prefecture
+  end
+
   validates :name, presence: true
   validates :info, presence: true
-  validates :category_id, presence: true
-  validates :sales_status_id, presence: true
-  validates :prefecture_id, presence: true
+  validates :category_id, numericality: { other_than: 1 , message: "can't be blank"}
+  validates :sales_status_id, numericality: { other_than: 1 , message: "can't be blank"}
+  validates :fee_status_id, numericality: { other_than: 1 , message: "can't be blank"}
+  validates :prefecture_id, numericality: { other_than: 1 , message: "can't be blank"}
   validates :price, presence: true
 
   belongs_to :user
