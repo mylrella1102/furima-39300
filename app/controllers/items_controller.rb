@@ -22,7 +22,7 @@ class ItemsController < ApplicationController
   end
 
   def edit
-    move_to_index unless user_signed_in? && current_user.id == @item.user_id
+    move_to_index unless current_user.id == @item.user_id
   end
 
   def update
