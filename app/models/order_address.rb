@@ -9,7 +9,7 @@ class OrderAddress
   validates :item_id, presence: true
   validates :user_id, presence: true
   validates :prefecture_id, presence: true, numericality: { other_than: 1, message: "can't be blank" }
-  validates :token, presence: true
+  validates :token, presence: true  
 
   def save
     order = Order.create(user_id: user_id, item_id: item_id)
